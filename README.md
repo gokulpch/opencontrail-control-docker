@@ -7,6 +7,7 @@
 * Contrail Docker Images:  https://s3-us-west-2.amazonaws.com/contrail-networking-docker-images/contrail-networking-docker_4.0.0.0-20_trusty.tgz
 * Contrail vRouter Packages: https://s3-us-west-2.amazonaws.com/contrail-networking-docker-images/vrouter-packages_centos.tgz
 * Required network connectivity between the hosts
+* Root access to the hosts
 
 
 ### Topology
@@ -29,6 +30,30 @@
 
 ### Procedure
 
+###### Shell scripts with installation steps
+
+* Run from /root
+
+1. Installs Docker, Pulls the required images, Load the images, Create sample conf files in /etc/contrailctl (this doesnt include contrail_lb container):
+
+   wget https://raw.githubusercontent.com/gokulpch/opencontrail-control-docker/master/deploy/provision_contrail_centos.sh
+
+2. Creates the containers (fill all the configuration files in /etc/contrailctl before running these commands):
+
+   wget https://raw.githubusercontent.com/gokulpch/opencontrail-control-docker/master/deploy/create_contrail_container.sh
+   
+3. Provisions only LB container, Docker (HA) on a seperate host/vm:
+
+   wget https://raw.githubusercontent.com/gokulpch/opencontrail-control-docker/master/deploy/provision_contrail_lb_centos.sh
+
+4. Creates only LB container (after step 3):
+
+   wget https://raw.githubusercontent.com/gokulpch/opencontrail-control-docker/master/deploy/create_lb_container.sh
+   
+5. Provisions Compute/vRouter node with all the packages required for the vRouter:
+
+   wget https://raw.githubusercontent.com/gokulpch/opencontrail-control-docker/master/deploy/provision_vrouter_centos.sh
+
 #### Packages and Dependencies
 
 ###### Install the following packages on all the hosts using YUM :
@@ -36,8 +61,6 @@
 ```
 yum install kernel-devel kernel-headers nfs-utils net-tools socat wget git patch ntp -y && reboot
 ```
-
-wget 
 
 ###### Install Docker on the nodes where Contrail containers are installed:
 
@@ -438,7 +461,8 @@ __EOT__
 
 9. Initiate provisioning on the vRouter nodes:
 
-contrail-compute-setup --self_ip 10.87.1.45\
+```
+  contrail-compute-setup --self_ip 10.87.1.45\
                          --hypervisor libvirt\
                          --cfgm_ip 10.87.1.40,10.87.1.41,10.87.1.42\
                          --collectors 10.87.1.40,10.87.1.41,10.87.1.42\
@@ -449,7 +473,9 @@ contrail-compute-setup --self_ip 10.87.1.45\
                          --keystone_admin_user admin\
                          --keystone_admin_password 761Uq\
                          --keystone_admin_tenant_name admin\
+```
 
+10. Reboot the nodes to apply the kernal changes
 
 ###### Registering Components with Contrail
 
