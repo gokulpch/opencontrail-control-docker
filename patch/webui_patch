@@ -1,0 +1,18 @@
+--- /usr/src/contrail/contrail-web-core/src/serverroot/orchestration/plugins/openstack/keystone.api.js    2017-06-04 20:21:59.000000000 +0000
++++ keystone.api.js    2017-07-26 23:04:30.891704930 +0000
+@@ -214,6 +214,7 @@
+     if (null != tmpAuthRestObj.mapped) {
+         headers['protocol'] = tmpAuthRestObj.mapped.protocol;
+     }
++    reqUrl = "/keystone" + reqUrl;
+     tmpAuthRestObj.authRestAPI.api.post(reqUrl, postData, function(error, data) {
+         if (null != error) {
+             logutils.logger.error('authPostV2Req() error:' + error);
+@@ -259,6 +260,7 @@
+     }
+
+     tmpAuthRestObj.authRestAPI.api.get(reqUrl, function(error, data) {
++    reqUrl = "/keystone" + reqUrl;
+         if (null != error) {
+             logutils.logger.error('getAuthResponse() error:' + error);
+         }

@@ -1,0 +1,11 @@
+--- /usr/lib/python2.7/dist-packages/vnc_cfg_api_server/vnc_auth_keystone.py    2017-06-04 20:22:00.000000000 +0000
++++ vnc_auth_keystone.py    2017-07-26 22:57:34.659274000 +0000
+@@ -144,7 +144,7 @@
+             if args.keyfile and args.certfile:
+                 certs=[args.certfile, args.keyfile, args.cafile]
+             _kscertbundle=cfgmutils.getCertKeyCaBundle(_DEFAULT_KS_CERT_BUNDLE,certs)
+-        identity_uri = '%s://%s:%s' % (args.auth_protocol, args.auth_host, args.auth_port)
++        identity_uri = '%s://%s:%s/keystone' % (args.auth_protocol, args.auth_host, args.auth_port)
+         self._conf_info = {
+             'auth_host': args.auth_host,
+             'auth_port': args.auth_port,
