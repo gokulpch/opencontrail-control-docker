@@ -1,4 +1,4 @@
-# Opencontrail-control-docker Deployment for Integration with Openstack
+# Opencontrail-Docker-CentOS Deployment for Integration with Openstack
 
 ### Requirements
 
